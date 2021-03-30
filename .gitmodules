@@ -1,0 +1,3 @@
+[submodule "once-for-all"]
+	path = once-for-all
+	url = https://github.com/mit-han-lab/once-for-all
