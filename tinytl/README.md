@@ -1,4 +1,4 @@
-# TinyTL: Reduce Memory, Not Parameters for Efficient On-Device Learning [[website]](https://hanlab.mit.edu/projects/tinyml/tinyTL/)
+# TinyTL: Reduce Activations, Not Trainable Parameters for Efficient On-Device Learning [[website]](https://hanlab.mit.edu/projects/tinyml/tinyTL/)
 
 ```BibTex
 @inproceedings{
