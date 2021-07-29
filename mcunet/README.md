@@ -137,8 +137,6 @@ We can further reduce the memory usage with lower precision (int4). Notice that 
 
 **Note**: Int4 quantization also does NOT bring further speed gain due to the instruction set. It may not be a better trade-off compared to int8 if inference latency is considered.
 
-**TODO**: we are still organizing the code and the right model format for int4 model evaluation.
-
 | Constraints    | Model Stats.                                   | TinyEngine Stats.                       | Top-1 Acc.  | Link |
 | -------------- | ---------------------------------------------- | --------------------------------------- | ----------- | ---- |
 | 256kB<br />1MB | MACs: 134.5M <br />Param: 1.4M<br />Act: 244kB | SRAM:  233kB<br />Flash:   1008kB<br /> | int4: 62.0% | TODO |
@@ -154,12 +152,6 @@ We provide the MCUNet models under different latency constraints. The models are
 | N/A                | MACs: 81.8M <br />Param: 0.74M<br />Act: 333kB | SRAM: 560kB<br />Flash:  1088kB<br />Latency: OOM  | SRAM: 293kB<br />Flash: 897kB<br />Latency: 1075ms | FP: 62.2%<br />int8:  61.8% | FP: 84.5%<br />int8: 84.2% | [json](assets/configs/mcunet-320kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.tflite) |
 | 5FPS               | MACs: 12.8M <br />Param: 0.6M<br />Act: 90kB   | SRAM: 295kB<br />Flash:  941kB<br />Latency: 659ms | SRAM: 107kB<br />Flash: 770kB<br />Latency: 197ms  | FP: 51.5%<br />int8: 49.9%  | FP: 75.5%<br />int8: 74.1% | [json](assets/configs/mcunet-5fps_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-5fps_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-5fps_imagenet.tflite) |
 | 10FPS              | MACs: 6.4M <br />Param: 0.7M<br />Act: 45kB    | SRAM: 237kB<br />Flash:  1069kB<br />Latency: OOM  | SRAM: 54kB<br />Flash: 889kB<br />Latency: 92ms    | FP: 41.5%<br />int8: 40.4%  | FP: 66.3%<br />int8: 65.2% | [json](assets/configs/mcunet-10fps_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-10fps_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-10fps_imagenet.tflite) |
-
-
-
-### VWW & Speech Command models
-
-Will be released soon.
 
 
 
@@ -185,19 +177,6 @@ python jobs/eval_tflite.py \
 	--tflite_path assets/tflite/mcunet-320kb-1mb_imagenet.tflite
 ```
 
-
-
-## Code Cleaning Plan 
-
-Due to the time limit, we cannot finish all the code cleaning for now (all the features have been implemented by the submission, but not all in a good-looking way :) ). The repo is still under development. Please check back for the updates.
-
-Currently, our code cleaning plan is:
-
-- [ ] Memory & latency profiler; comparison between estimated and measured memory/latency.
-- [ ] VWW & Speech Commands models.
-- [ ] Int4 model format & evaluation.
-- [ ] TinyNAS search & training.
-- [ ] TinyEngine on-device deployment. 
 
 
 
