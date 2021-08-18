@@ -137,11 +137,11 @@ We can further reduce the memory usage with lower precision (int4). Notice that 
 
 **Note**: Int4 quantization also does NOT bring further speed gain due to the instruction set. It may not be a better trade-off compared to int8 if inference latency is considered.
 
-| Constraints    | Model Stats.                                   | TinyEngine Stats.                       | Top-1 Acc.  | Link |
-| -------------- | ---------------------------------------------- | --------------------------------------- | ----------- | ---- |
-| 256kB<br />1MB | MACs: 134.5M <br />Param: 1.4M<br />Act: 244kB | SRAM:  233kB<br />Flash:   1008kB<br /> | int4: 62.0% | TODO |
-| 320kB<br />1MB | MACs: 170.0M <br />Param: 1.4M<br />Act: 295kB | SRAM:  282kB<br />Flash:   1010kB<br /> | int4: 63.5% | TODO |
-| 512kB<br />1MB | MACs: 466.8M <br />Param: 3.3M<br />Act: 495kB | SRAM:  498kB<br />Flash:   1986kB<br /> | int4: 70.7% | TODO |
+| Constraints    | Model Stats.                                   | TinyEngine Stats.                       | Top-1 Acc.  | 
+| -------------- | ---------------------------------------------- | --------------------------------------- | ----------- | 
+| 256kB<br />1MB | MACs: 134.5M <br />Param: 1.4M<br />Act: 244kB | SRAM:  233kB<br />Flash:   1008kB<br /> | int4: 62.0% | 
+| 320kB<br />1MB | MACs: 170.0M <br />Param: 1.4M<br />Act: 295kB | SRAM:  282kB<br />Flash:   1010kB<br /> | int4: 63.5% | 
+| 512kB<br />1MB | MACs: 466.8M <br />Param: 3.3M<br />Act: 495kB | SRAM:  498kB<br />Flash:   1986kB<br /> | int4: 70.7% | 
 
 #### MCUNet under different latency constraints
 
