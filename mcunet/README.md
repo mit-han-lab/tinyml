@@ -28,10 +28,8 @@
       * [MCUNet under different memory constraints](#mcunet-under-different-memory-constraints)
          * [1. Int8 Models](#1-int8-models)
          * [2. Int4 models](#2-int4-models)
-      * [MCUNet under different latency constraints](#mcunet-under-different-latency-constraints)
    * [VWW &amp; Speech Command models](#vww--speech-command-models)
 * [Testing](#testing)
-* [Code Cleaning Plan](#code-cleaning-plan)
 * [Requirement](#requirement)
 * [Acknowledgement](#acknowledgement)
 * [Related Projects](#related-projects)
@@ -97,19 +95,16 @@ python jobs/download_all_models.py
 
 #### Comparison on STM32F746 (constraints: 320kB SRAM, 1MB Flash)
 
-We first compare the baseline networks (scaled MobileNetV2, <u>MbV2-s</u> and scaled ProxylessNASMobile, <u>Proxyless-s</u>) with MCUNet on STM32F746. The baseline networks are scaled to fit the hardware constraints (we compoundly scale the width and resolution of the baseline networks and report the best accuracy under the constraints).
+We first compare the baseline networks (scaled ProxylessNASMobile, <u>Proxyless-s</u>) with MCUNet on STM32F746. The baseline networks are scaled to fit the hardware constraints (we compoundly scale the width and resolution of the baseline networks and report the best accuracy under the constraints).
 
-The latency and memory usage are measured on STM32F746 board. TinyEngine can reduce the Flash and SRAM usage and fit a larger model; TinyNAS can design network that has superior accuracy under the same memory budget.
+The memory usage is measured on STM32F746 board. TinyEngine can reduce the Flash and SRAM usage and fit a larger model; TinyNAS can design network that has superior accuracy under the same memory budget.
 
 | Model                                             | Model Stats.                                   | TF-Lite Stats.                                    | TinyEngine Stats.                                  | Top-1 Acc.                  | Top-5 Acc.                 | Link                                                         |
 | ------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------- | -------------------------------------------------- | --------------------------- | -------------------------- | ------------------------------------------------------------ |
-| MbV2-s <br />for TF-Lite<br />(w0.3-r80)          | MACs: 7.3M<br />Param: 0.63M<br />Act: 94kB    | SRAM: 306kB<br />Flash: 943kB<br />Latency: 445ms | SRAM: 98kB<br />Flash: 745kB<br />Latency: 124ms   | FP: 39.3%<br />int8: 38.6%  | FP: 64.8%<br />int8: 64.1% | [json](assets/configs/mbv2-w0.3-r80_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mbv2-w0.3-r80_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mbv2-w0.3-r80_imagenet.tflite) |
-| MbV2-s <br />for TinyEngine<br />(w0.35-r144)     | MACs: 23.5M <br />Param: 0.75M<br />Act: 303kB | SRAM: 646kB<br />Flash: 1060kB<br />Latency: OOM  | SRAM: 308kB<br />Flash: 862kB<br />Latency: 393ms  | FP: 49.7%<br />int8: 49.0%  | FP: 74.6%<br />int8: 73.8% | [json](assets/configs/mbv2-w0.35-r144_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mbv2-w0.3-r80_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mbv2-w0.35-r144_imagenet.tflite) |
+| Proxyless-s <br />for TF-Lite<br />(w0.25-r112)   | MACs: 10.7M <br />Param: 0.57M<br />Act: 98kB  | SRAM: 288kB<br />Flash: 860kB | SRAM: 114kB<br />Flash: 701kB  | FP: 44.9%<br />int8: 43.8%  | FP: 70.0%<br />int8: 69.0% | [json](assets/configs/proxyless-w0.25-r112_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.25-r112_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.25-r112_imagenet.tflite) |
+| Proxyless-s <br />for TinyEngine<br />(w0.3-r176) | MACs: 38.3M <br />Param: 0.75M<br />Act: 242kB | SRAM: 526kB<br />Flash:  1063kB | SRAM: 292kB<br />Flash: 892kB  | FP: 57.0%<br />int8:  56.2% | FP: 80.2%<br />int8: 79.7% | [json](assets/configs/proxyless-w0.3-r176_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.3-r176_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.3-r176_imagenet.tflite) |
 |                                                   |                                                |                                                   |                                                    |                             |                            |                                                              |
-| Proxyless-s <br />for TF-Lite<br />(w0.25-r112)   | MACs: 10.7M <br />Param: 0.57M<br />Act: 98kB  | SRAM: 288kB<br />Flash: 860kB<br />Latency: 660ms | SRAM: 114kB<br />Flash: 701kB<br />Latency: 169ms  | FP: 44.9%<br />int8: 43.8%  | FP: 70.0%<br />int8: 69.0% | [json](assets/configs/proxyless-w0.25-r112_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.25-r112_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.25-r112_imagenet.tflite) |
-| Proxyless-s <br />for TinyEngine<br />(w0.3-r176) | MACs: 38.3M <br />Param: 0.75M<br />Act: 242kB | SRAM: 526kB<br />Flash:  1063kB<br />Latency: OOM | SRAM: 292kB<br />Flash: 892kB<br />Latency: 572ms  | FP: 57.0%<br />int8:  56.2% | FP: 80.2%<br />int8: 79.7% | [json](assets/configs/proxyless-w0.3-r176_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.3-r176_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.3-r176_imagenet.tflite) |
-|                                                   |                                                |                                                   |                                                    |                             |                            |                                                              |
-| TinyNAS<br />for TinyEngine<br />(**MCUNet**)     | MACs: 81.8M <br />Param: 0.74M<br />Act: 333kB | SRAM: 560kB<br />Flash:  1088kB<br />Latency: OOM | SRAM: 293kB<br />Flash: 897kB<br />Latency: 1075ms | FP: 62.2%<br />int8:  61.8% | FP: 84.5%<br />int8: 84.2% | [json](assets/configs/mcunet-320kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.tflite) |
+| TinyNAS<br />for TinyEngine<br />(**MCUNet**)     | MACs: 81.8M <br />Param: 0.74M<br />Act: 333kB | SRAM: 560kB<br />Flash:  1088kB | SRAM: 293kB<br />Flash: 897kB | FP: 62.2%<br />int8:  61.8% | FP: 84.5%<br />int8: 84.2% | [json](assets/configs/mcunet-320kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.tflite) |
 
 #### MCUNet under different memory constraints
 
@@ -119,7 +114,7 @@ We provide the MCUNet models under different memory constraints:
 - STM32 F746 (Cortex-M7, 320kB SRAM/1MB Flash)
 - STM32 H743 (Cortex-M7, 512kB SRAM/2MB Flash)
 
-The memory usage and latency are measured on the corresponding devices.
+The memory usage is measured on the corresponding devices.
 
 ##### 1. Int8 Models
 
@@ -127,9 +122,9 @@ Int8 quantization is the most widely used quantization and default setting in ou
 
 | Constraints    | Model Stats.                                   | TF-Lite Stats.                                    | TinyEngine Stats.                                  | Top-1 Acc.                  | Top-5 Acc.                 | Link                                                         |
 | -------------- | ---------------------------------------------- | ------------------------------------------------- | -------------------------------------------------- | --------------------------- | -------------------------- | ------------------------------------------------------------ |
-| 256kB<br />1MB | MACs: 67.3M <br />Param: 0.73M<br />Act: 325kB | SRAM: 546kB<br />Flash:  1081kB<br />Latency: OOM | SRAM: 242kB<br />Flash: 878kB<br />Latency: 3535ms | FP: 60.9%<br />int8: 60.3%  | FP: 83.3%<br />int8: 82.6% | [json](assets/configs/mcunet-256kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-256kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-256kb-1mb_imagenet.tflite) |
-| 320kB<br />1MB | MACs: 81.8M <br />Param: 0.74M<br />Act: 333kB | SRAM: 560kB<br />Flash:  1088kB<br />Latency: OOM | SRAM: 293kB<br />Flash: 897kB<br />Latency: 1075ms | FP: 62.2%<br />int8:  61.8% | FP: 84.5%<br />int8: 84.2% | [json](assets/configs/mcunet-320kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.tflite) |
-| 512kB<br />2MB | MACs: 125.9M <br />Param: 1.7M<br />Act: 413kB | SRAM: 863kB<br />Flash:  2133kB<br />Latency: OOM | SRAM: 456kB<br />Flash: 1876kB<br />Latency: 617ms | FP: 68.4%<br />int8: 68.0%  | FP: 88.4%<br />int8: 88.1% | [json](assets/configs/mcunet-512kb-2mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-512kb-2mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-512kb-2mb_imagenet.tflite) |
+| 256kB<br />1MB | MACs: 67.3M <br />Param: 0.73M<br />Act: 325kB | SRAM: 546kB<br />Flash:  1081kB | SRAM: 242kB<br />Flash: 878kB | FP: 60.9%<br />int8: 60.3%  | FP: 83.3%<br />int8: 82.6% | [json](assets/configs/mcunet-256kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-256kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-256kb-1mb_imagenet.tflite) |
+| 320kB<br />1MB | MACs: 81.8M <br />Param: 0.74M<br />Act: 333kB | SRAM: 560kB<br />Flash:  1088kB | SRAM: 293kB<br />Flash: 897kB | FP: 62.2%<br />int8:  61.8% | FP: 84.5%<br />int8: 84.2% | [json](assets/configs/mcunet-320kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.tflite) |
+| 512kB<br />2MB | MACs: 125.9M <br />Param: 1.7M<br />Act: 413kB | SRAM: 863kB<br />Flash:  2133k | SRAM: 456kB<br />Flash: 1876kB | FP: 68.4%<br />int8: 68.0%  | FP: 88.4%<br />int8: 88.1% | [json](assets/configs/mcunet-512kb-2mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-512kb-2mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-512kb-2mb_imagenet.tflite) |
 
 ##### 2. Int4 models
 
@@ -143,17 +138,6 @@ We can further reduce the memory usage with lower precision (int4). Notice that 
 | 320kB<br />1MB | MACs: 170.0M <br />Param: 1.4M<br />Act: 295kB | SRAM:  282kB<br />Flash:   1010kB<br /> | int4: 63.5% | 
 | 512kB<br />1MB | MACs: 466.8M <br />Param: 3.3M<br />Act: 495kB | SRAM:  498kB<br />Flash:   1986kB<br /> | int4: 70.7% | 
 
-#### MCUNet under different latency constraints
-
-We provide the MCUNet models under different latency constraints. The models are designed to fit STM32F746 with 320kB SRAM and 1MB Flash.
-
-| Latency<br />Limit | Model Stats.                                   | TF-Lite Stats.                                     | TinyEngine Stats.                                  | Top-1 Acc.                  | Top-5 Acc.                 | Link                                                         |
-| ------------------ | ---------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | --------------------------- | -------------------------- | ------------------------------------------------------------ |
-| N/A                | MACs: 81.8M <br />Param: 0.74M<br />Act: 333kB | SRAM: 560kB<br />Flash:  1088kB<br />Latency: OOM  | SRAM: 293kB<br />Flash: 897kB<br />Latency: 1075ms | FP: 62.2%<br />int8:  61.8% | FP: 84.5%<br />int8: 84.2% | [json](assets/configs/mcunet-320kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.tflite) |
-| 5FPS               | MACs: 12.8M <br />Param: 0.6M<br />Act: 90kB   | SRAM: 295kB<br />Flash:  941kB<br />Latency: 659ms | SRAM: 107kB<br />Flash: 770kB<br />Latency: 197ms  | FP: 51.5%<br />int8: 49.9%  | FP: 75.5%<br />int8: 74.1% | [json](assets/configs/mcunet-5fps_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-5fps_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-5fps_imagenet.tflite) |
-| 10FPS              | MACs: 6.4M <br />Param: 0.7M<br />Act: 45kB    | SRAM: 237kB<br />Flash:  1069kB<br />Latency: OOM  | SRAM: 54kB<br />Flash: 889kB<br />Latency: 92ms    | FP: 41.5%<br />int8: 40.4%  | FP: 66.3%<br />int8: 65.2% | [json](assets/configs/mcunet-10fps_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-10fps_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-10fps_imagenet.tflite) |
-
-
 
 ## Testing
 
@@ -163,18 +147,18 @@ To evaluate the accuracy of **PyTorch** models, run:
 
 ```bash
 horovodrun -np 8 \
-	python jobs/run_imagenet.py --evaluate --batch_size 50 \
-	--train-dir PATH/TO/IMAGENET/train --val-dir PATH/TO/IMAGENET/val \
-	--net_config assets/configs/mcunet-320kb-1mb_imagenet.json \
-	--load_from assets/pt_ckpt/mcunet-320kb-1mb_imagenet.pth
+    python jobs/run_imagenet.py --evaluate --batch_size 50 \
+    --train-dir PATH/TO/IMAGENET/train --val-dir PATH/TO/IMAGENET/val \
+    --net_config assets/configs/mcunet-320kb-1mb_imagenet.json \
+    --load_from assets/pt_ckpt/mcunet-320kb-1mb_imagenet.pth
 ```
 
 To evaluate the accuracy of int8 **TF-Lite** models, run:
 
 ```bash
 python jobs/eval_tflite.py \
-	--val-dir PATH/TO/IMAGENET/val \
-	--tflite_path assets/tflite/mcunet-320kb-1mb_imagenet.tflite
+    --val-dir PATH/TO/IMAGENET/val \
+    --tflite_path assets/tflite/mcunet-320kb-1mb_imagenet.tflite
 ```
 
 
