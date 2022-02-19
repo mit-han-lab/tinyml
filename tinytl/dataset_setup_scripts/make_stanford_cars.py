@@ -23,10 +23,10 @@ def download_file(url, dest=None):
 
 
 def get_data():
-    download_file('http://imagenet.stanford.edu/internal/car196/cars_train.tgz')
-    download_file('http://imagenet.stanford.edu/internal/car196/cars_test.tgz')
-    download_file('http://ai.stanford.edu/~jkrause/cars/car_devkit.tgz')
-    download_file('http://imagenet.stanford.edu/internal/car196/cars_test_annos_withlabels.mat')
+    download_file('http://ai.stanford.edu/~jkrause/car196/cars_train.tgz')
+    download_file('http://ai.stanford.edu/~jkrause/car196/cars_test.tgz')
+    download_file('https://ai.stanford.edu/~jkrause/cars/car_devkit.tgz')
+    download_file('http://ai.stanford.edu/~jkrause/car196/cars_test_annos_withlabels.mat')    
     tarfile.open(os.path.join(dataset_path, 'cars_train.tgz')).extractall(path=dataset_path)
     tarfile.open(os.path.join(dataset_path, 'cars_test.tgz')).extractall(path=dataset_path)
     tarfile.open(os.path.join(dataset_path, 'car_devkit.tgz')).extractall(path=dataset_path)
