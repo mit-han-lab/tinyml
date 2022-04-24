@@ -15,6 +15,7 @@
 |----------------------|:----------:|
 | [MCUNet](https://github.com/mit-han-lab/tinyml/tree/master/mcunet) | Memory-efficient inference, System-algorithm co-design |
 | [TinyTL](https://github.com/mit-han-lab/tinyml/tree/master/tinytl) | On-device learning, Memory-efficient transfer learning |
+| [NetAug](https://github.com/mit-han-lab/tinyml/tree/master/netaug) | Training technique for tiny neural networks |
 
 
 ## About TinyML

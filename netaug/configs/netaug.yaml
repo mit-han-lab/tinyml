@@ -1,0 +1,27 @@
+data_provider:
+  dataset: imagenet
+  image_size: 160
+  base_batch_size: 128
+  n_worker: 8
+  data_path: null
+
+model:
+  name: mbv2-0.35
+  dropout_rate: 0
+
+run_config:
+  n_epochs: 150
+  weight_decay: 4.0e-5
+  base_lr: 0.025
+  warmup_epochs: 5
+  label_smoothing: 0.1
+  init_type: kaiming_uniform
+
+netaug:
+  aug_expand_list: [1.0]
+  aug_width_mult_list: [1.0]
+  stop_aug_w_epoch: 75
+  stop_aug_e_epoch: 0
+  stop_netaug_epoch: 0
+  sort_channel: true
+  sync: false
