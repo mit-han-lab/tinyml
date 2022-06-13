@@ -81,7 +81,10 @@ def count_parameters(net):
 
 def count_net_flops(model, data_shape):
     from torchprofile import profile_macs
+    model = copy.deepcopy(model)
+    rm_bn_from_net(model)  # remove bn since it is eventually fused
     total_macs = profile_macs(model, torch.randn(*data_shape).to(get_net_device(model)))
+    del model
     return total_macs
 
 
