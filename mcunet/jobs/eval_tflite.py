@@ -1,17 +1,14 @@
-import sys
-
-sys.path.append(".")
+import os
+import argparse
+import numpy as np
 
 import torch
-import argparse
-import torch.backends.cudnn as cudnn
-
-import os
-import numpy as np
 from torchvision import datasets, transforms
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # use only cpu for tf-lite evaluation
 import tensorflow as tf
+
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # use only cpu for tf-lite evaluation
+
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
@@ -29,8 +26,6 @@ parser.add_argument('-j', '--workers', default=16, type=int, metavar='N',
                     help='number of data loading workers')
 
 args = parser.parse_args()
-
-cudnn.benchmark = True
 
 
 def get_val_dataset(resolution):
