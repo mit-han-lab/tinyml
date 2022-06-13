@@ -1,6 +1,6 @@
-import sys
-
-sys.path.append(".")
+import os
+from tqdm import tqdm
+import json
 
 import torch
 import argparse
@@ -8,9 +8,7 @@ import torch.backends.cudnn as cudnn
 import torch.nn.functional as F
 import torch.utils.data.distributed
 from torchvision import datasets, transforms
-import os
-from tqdm import tqdm
-import json
+
 from utils import AverageMeter, accuracy, count_net_flops, count_parameters
 
 # Training settings
