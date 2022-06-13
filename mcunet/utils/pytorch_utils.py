@@ -64,7 +64,11 @@ def clean_num_batch_tracked(net):
 def rm_bn_from_net(net):
     for m in net.modules():
         if isinstance(m, nn.BatchNorm2d) or isinstance(m, nn.BatchNorm1d):
-            m.forward = lambda x: x
+            m.forward = lambda x: x  # exclude from computation
+            del m.weight  # exclude model size
+            del m.bias
+            del m.running_mean
+            del m.running_var
 
 
 """ Network profiling """
