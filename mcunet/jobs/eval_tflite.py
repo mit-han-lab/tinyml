@@ -21,7 +21,7 @@ parser.add_argument('--tflite_path', default=None, help='path to tflite file for
 
 # dataset args.
 parser.add_argument('--dataset', default='imagenet', type=str)
-parser.add_argument('--val-dir', default='/dataset/imagenet/val',
+parser.add_argument('--data-dir', default='/dataset/imagenet/val',
                     help='path to validation data')
 parser.add_argument('--batch-size', type=int, default=256,
                     help='input batch size for training')
@@ -38,20 +38,12 @@ def get_val_dataset(resolution):
     kwargs = {'num_workers': args.workers, 'pin_memory': False}
     if args.dataset == 'imagenet':
         val_dataset = \
-            datasets.ImageFolder(args.val_dir,
+            datasets.ImageFolder(args.data_dir,
                                  transform=transforms.Compose([
                                      transforms.Resize(int(resolution * 256 / 224)),
                                      transforms.CenterCrop(resolution),
                                      transforms.ToTensor(),
                                  ]))
-    elif args.dataset == 'vww':
-        raise NotImplementedError
-        from lib.vww import VWWDataset
-        val_transform = transforms.Compose([
-            transforms.Resize([resolution, resolution]),
-            transforms.ToTensor(),
-        ])
-        val_dataset = VWWDataset(split='minival', transform=val_transform)
     else:
         raise NotImplementedError
     val_loader = torch.utils.data.DataLoader(

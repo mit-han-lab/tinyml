@@ -1,4 +1,3 @@
-from .flops_counter import *
 from .pytorch_utils import *
 from .my_modules import *
 from .common_tools import *

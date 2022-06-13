@@ -79,13 +79,10 @@ def count_parameters(net):
     return total_params
 
 
-def count_net_flops(net, data_shape=(1, 3, 224, 224)):
-    from .flops_counter import profile
-    if isinstance(net, nn.DataParallel):
-        net = net.module
-
-    flop, _ = profile(copy.deepcopy(net), data_shape)
-    return flop
+def count_net_flops(model, data_shape):
+    from torchprofile import profile_macs
+    total_macs = profile_macs(model, torch.randn(*data_shape).to(get_net_device(model)))
+    return total_macs
 
 
 def count_peak_activation_size(net, data_shape=(1, 3, 224, 224)):

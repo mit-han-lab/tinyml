@@ -146,18 +146,17 @@ We provide the script to test the accuracy of models, both the float-point model
 To evaluate the accuracy of **PyTorch** models, run:
 
 ```bash
-horovodrun -np 8 \
-    python jobs/run_imagenet.py --evaluate --batch_size 50 \
-    --train-dir PATH/TO/IMAGENET/train --val-dir PATH/TO/IMAGENET/val \
+python jobs/eval_imagenet.py \
+    --data-dir PATH/TO/IMAGENET/val \
     --net_config assets/configs/mcunet-320kb-1mb_imagenet.json \
-    --load_from assets/pt_ckpt/mcunet-320kb-1mb_imagenet.pth
+    --checkpoint assets/pt_ckpt/mcunet-320kb-1mb_imagenet.pth
 ```
 
 To evaluate the accuracy of int8 **TF-Lite** models, run:
 
 ```bash
 python jobs/eval_tflite.py \
-    --val-dir PATH/TO/IMAGENET/val \
+    --data-dir PATH/TO/IMAGENET/val \
     --tflite_path assets/tflite/mcunet-320kb-1mb_imagenet.tflite
 ```
 
