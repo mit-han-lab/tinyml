@@ -63,16 +63,6 @@ Our **TinyEngine** inference engine could be a useful infrastructure for MCU-bas
 
 
 
-
-## Framework Structure
-
-The structure of the MCUNet implementation is as follows. The whole project is mostly based on a Python implementation, except for the device side deployment. 
-TinyEngine and TinyNAS share the code of Code Generation, which is used for memory profiling during architecture search, and also the first step for device deployment.
-
-![diagram](assets/figures/diagram.png)
-
-
-
 ## Model Zoo
 
 We provide the searched models for ImageNet, Visual Wake Words (VWW), and Google Speech Commands for comparison. The statistics on TF-Lite Micro and TinyEngine is based on *int8 quantized* version of the model (unless otherwise stated).
@@ -170,8 +160,6 @@ python jobs/eval_tflite.py \
 - PyTorch 1.4.0+
 
 - Tensorflow 1.15
-
-- Horovod
 
   
 
