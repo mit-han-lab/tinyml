@@ -7,15 +7,6 @@
 
 <p align="center"><a href="https://news.mit.edu/2020/iot-deep-learning-1113">[MIT News]</a> System brings deep learning to “internet of things” devices</p>
 
-```
-@article{lin2020mcunet,
-  title={Mcunet: Tiny deep learning on iot devices},
-  author={Lin, Ji and Chen, Wei-Ming and Lin, Yujun and Gan, Chuang and Han, Song},
-  journal={Advances in Neural Information Processing Systems},
-  volume={33},
-  year={2020}
-}
-```
 
 ## Overview
 
@@ -135,7 +126,6 @@ python jobs/eval_tflite.py \
 
 
 
-
 ## Requirement
 
 - Python 3.6+
@@ -145,12 +135,26 @@ python jobs/eval_tflite.py \
 - Tensorflow 1.15 (CPU only)
 
   
-
 ## Acknowledgement
 
 We thank [MIT Satori cluster](https://mit-satori.github.io/) for providing the computation resource. We thank MIT-IBM Watson AI Lab, SONY, Qualcomm, NSF CAREER Award #1943349 and NSF RAPID Award #2027266 for supporting this research.
 
 Part of the code is taken from [once-for-all](https://github.com/mit-han-lab/once-for-all) project for development.
+
+
+## Citation
+If you find the project helpful, please consider citing our paper:
+
+```
+@article{lin2020mcunet,
+  title={Mcunet: Tiny deep learning on iot devices},
+  author={Lin, Ji and Chen, Wei-Ming and Lin, Yujun and Gan, Chuang and Han, Song},
+  journal={Advances in Neural Information Processing Systems},
+  volume={33},
+  year={2020}
+}
+```
+
 
 
 
