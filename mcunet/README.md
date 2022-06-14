@@ -1,4 +1,11 @@
-# MCUNet: Tiny Deep Learning on IoT Devices  [[Website]](http://mcunet.mit.edu/) [[arXiv]](https://arxiv.org/abs/2007.10319)[[Demo]](https://www.youtube.com/watch?v=YvioBgtec4U&feature=emb_logo)
+# MCUNet: Tiny Deep Learning on IoT Devices 
+
+###  [website](http://mcunet.mit.edu/) | [paper](https://arxiv.org/abs/2007.10319) | [demo](https://www.youtube.com/watch?v=YvioBgtec4U&feature=emb_logo)
+<p align="center">
+  <img src="https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202011/MIT-Tiny-AI-01_0.jpg?itok=chf7f8K1" alt="teaser" width="510" height="340" />
+</p>
+
+<p align="center"><a href="https://news.mit.edu/2020/iot-deep-learning-1113">[MIT News]</a> System brings deep learning to “internet of things” devices</p>
 
 ```
 @article{lin2020mcunet,
@@ -9,30 +16,6 @@
   year={2020}
 }
 ```
-
-
-
-**[News]** This repo is still under development. Please check back for the updates!
-
-<p align="center">
-  <img src="https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202011/MIT-Tiny-AI-01_0.jpg?itok=chf7f8K1" alt="teaser" width="510" height="340" />
-</p>
-
-<p align="center"><a href="https://news.mit.edu/2020/iot-deep-learning-1113">[MIT News]</a> System brings deep learning to “internet of things” devices</p>
-
-* [Overview](#overview)
-* [Framework Structure](#framework-structure)
-* [Model Zoo](#model-zoo)
-   * [ImageNet models](#imagenet-models)
-      * [Comparison on STM32F746 (constraints: 320kB SRAM, 1MB Flash)](#comparison-on-stm32f746-constraints-320kb-sram-1mb-flash)
-      * [MCUNet under different memory constraints](#mcunet-under-different-memory-constraints)
-         * [1. Int8 Models](#1-int8-models)
-         * [2. Int4 models](#2-int4-models)
-   * [VWW &amp; Speech Command models](#vww--speech-command-models)
-* [Testing](#testing)
-* [Requirement](#requirement)
-* [Acknowledgement](#acknowledgement)
-* [Related Projects](#related-projects)
 
 ## Overview
 
@@ -159,7 +142,7 @@ python jobs/eval_tflite.py \
 
 - PyTorch 1.4.0+
 
-- Tensorflow 1.15
+- Tensorflow 1.15 (CPU only)
 
   
 
