@@ -1,38 +1,18 @@
-# MCUNet: Tiny Deep Learning on IoT Devices  [[Website]](http://mcunet.mit.edu/) [[arXiv]](https://arxiv.org/abs/2007.10319)[[Demo]](https://www.youtube.com/watch?v=YvioBgtec4U&feature=emb_logo)
+# MCUNet: Tiny Deep Learning on IoT Devices 
 
-```
-@article{lin2020mcunet,
-  title={Mcunet: Tiny deep learning on iot devices},
-  author={Lin, Ji and Chen, Wei-Ming and Lin, Yujun and Gan, Chuang and Han, Song},
-  journal={Advances in Neural Information Processing Systems},
-  volume={33},
-  year={2020}
-}
-```
+###  [website](http://mcunet.mit.edu/) | [paper](https://arxiv.org/abs/2007.10319) | [paper (v2)](https://arxiv.org/abs/2110.15352) | [demo video](https://www.youtube.com/watch?v=F4XKn0iDfxg)
 
+![demo](assets/figures/mcunet_demo.gif)
 
+## News
 
-**[News]** This repo is still under development. Please check back for the updates!
+We will soon release TinyEngine. **If you are interested in getting updates, please sign up [here](https://forms.gle/UW1uUmnfk1k6UJPPA) to get notified!**
 
-<p align="center">
-  <img src="https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202011/MIT-Tiny-AI-01_0.jpg?itok=chf7f8K1" alt="teaser" width="510" height="340" />
-</p>
+- **(2022/06)** We refactor the MCUNet repo as a standalone repo (previous repo: https://github.com/mit-han-lab/tinyml)
+- **(2021/10)** **MCUNetV2** is accepted to NeurIPS 2021: https://arxiv.org/abs/2110.15352 !
+- **(2020/10)** **MCUNet** is accepted to NeurIPS 2020 as **spotlight**: https://arxiv.org/abs/2007.10319 !
+- Our projects are covered by: [MIT News](https://news.mit.edu/2020/iot-deep-learning-1113), [MIT News (v2)](https://news.mit.edu/2021/tiny-machine-learning-design-alleviates-bottleneck-memory-usage-iot-devices-1208), [WIRED](https://www.wired.com/story/ai-algorithms-slimming-fit-fridge/), [Morning Brew](https://www.morningbrew.com/emerging-tech/stories/2020/12/07/researchers-figured-fit-ai-ever-onto-internet-things-microchips), [Stacey on IoT](https://staceyoniot.com/researchers-take-a-3-pronged-approach-to-edge-ai/), [Analytics Insight](https://www.analyticsinsight.net/amalgamating-ml-and-iot-in-smart-home-devices/), [Techable](https://techable.jp/archives/142462), etc.
 
-<p align="center"><a href="https://news.mit.edu/2020/iot-deep-learning-1113">[MIT News]</a> System brings deep learning to “internet of things” devices</p>
-
-* [Overview](#overview)
-* [Framework Structure](#framework-structure)
-* [Model Zoo](#model-zoo)
-   * [ImageNet models](#imagenet-models)
-      * [Comparison on STM32F746 (constraints: 320kB SRAM, 1MB Flash)](#comparison-on-stm32f746-constraints-320kb-sram-1mb-flash)
-      * [MCUNet under different memory constraints](#mcunet-under-different-memory-constraints)
-         * [1. Int8 Models](#1-int8-models)
-         * [2. Int4 models](#2-int4-models)
-   * [VWW &amp; Speech Command models](#vww--speech-command-models)
-* [Testing](#testing)
-* [Requirement](#requirement)
-* [Acknowledgement](#acknowledgement)
-* [Related Projects](#related-projects)
 
 ## Overview
 
@@ -50,119 +30,75 @@ With system-algorithm co-design, we can significantly improve the deep learning 
 
 ![teaser](assets/figures/overview.png)
 
-Our **TinyEngine** inference engine could be a useful infrastructure for MCU-based AI applications. It significantly **improves the inference speed and reduces the memory usage** compared to existing libraries like [TF-Lite Micro](https://www.tensorflow.org/lite/microcontrollers), [CMSIS-NN](https://arxiv.org/abs/1801.06601), [MicroTVM](https://tvm.apache.org/2020/06/04/tinyml-how-tvm-is-taming-tiny), etc.
+Our **TinyEngine** inference engine could be a useful infrastructure for MCU-based AI applications. It significantly **improves the inference speed and reduces the memory usage** compared to existing libraries like [TF-Lite Micro](https://www.tensorflow.org/lite/microcontrollers), [CMSIS-NN](https://arxiv.org/abs/1801.06601), [MicroTVM](https://tvm.apache.org/2020/06/04/tinyml-how-tvm-is-taming-tiny), etc. It improves the inference speed by **1.5-3x**, and reduces the peak memory by **2.7-4.8x**.
 
-- TinyEngine improves the **inference speed** by **1.5-3x**
-
-![teaser](assets/figures/latency.png)
-
-
-- TinyEngine reduces the **peak memory** by **2.7-4.8x**
-
-![teaser](assets/figures/peak_mem.png)
-
-
-
-
-## Framework Structure
-
-The structure of the MCUNet implementation is as follows. The whole project is mostly based on a Python implementation, except for the device side deployment. 
-TinyEngine and TinyNAS share the code of Code Generation, which is used for memory profiling during architecture search, and also the first step for device deployment.
-
-![diagram](assets/figures/diagram.png)
+![teaser](assets/figures/latency_mem.png)
 
 
 
 ## Model Zoo
 
-We provide the searched models for ImageNet, Visual Wake Words (VWW), and Google Speech Commands for comparison. The statistics on TF-Lite Micro and TinyEngine is based on *int8 quantized* version of the model (unless otherwise stated).
+### Usage
 
-- **Inference engines**: we compared both [TF-Lite Micro](https://www.tensorflow.org/lite/microcontrollers) and <u>TinyEngine</u> for the on-device statistics. 
-- **Model formats**: we provide the model in both PyTorch floating-point format (with <u>json</u> definition of architecture and checkpoint (<u>ckpt</u>) for weights) and also TF-Lite int8 quantized format (<u>tflite</u>)
-- **Statistics**: we include
-  - model statistics: computation (MACs), #parameters (Param), theoretial peak activation size (Act) (by summing input and output activation)
-  - deployment statistics: peak SRAM usage (SRAM), Flash usage (Flash)
+You can build the pre-trained PyTorch `fp32` model or the `int8` quantized model in TF-Lite format.
 
-We provide download links in the following tables. Alternatively, you can download all the checkpoints and tf-lite files at once by running:
+```python
+from mcunet.model_zoo import net_id_list, build_model, download_tflite
+print(net_id_list)  # the list of models in the model zoo
 
-```bash
-python jobs/download_all_models.py
+# pytorch fp32 model
+model, image_size, description = build_model(net_id="mcunet-320kB", pretrained=True)  # you can replace net_id with any other option from net_id_list
+
+# download tflite file to tflite_path
+tflite_path = download_tflite(net_id="mcunet-320kB")
 ```
 
 
+### Evaluate
 
-### ImageNet models
-
-#### Comparison on STM32F746 (constraints: 320kB SRAM, 1MB Flash)
-
-We first compare the baseline networks (scaled ProxylessNASMobile, <u>Proxyless-s</u>) with MCUNet on STM32F746. The baseline networks are scaled to fit the hardware constraints (we compoundly scale the width and resolution of the baseline networks and report the best accuracy under the constraints).
-
-The memory usage is measured on STM32F746 board. TinyEngine can reduce the Flash and SRAM usage and fit a larger model; TinyNAS can design network that has superior accuracy under the same memory budget.
-
-| Model                                             | Model Stats.                                   | TF-Lite Stats.                                    | TinyEngine Stats.                                  | Top-1 Acc.                  | Top-5 Acc.                 | Link                                                         |
-| ------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------- | -------------------------------------------------- | --------------------------- | -------------------------- | ------------------------------------------------------------ |
-| Proxyless-s <br />for TF-Lite<br />(w0.25-r112)   | MACs: 10.7M <br />Param: 0.57M<br />Act: 98kB  | SRAM: 288kB<br />Flash: 860kB | SRAM: 114kB<br />Flash: 701kB  | FP: 44.9%<br />int8: 43.8%  | FP: 70.0%<br />int8: 69.0% | [json](assets/configs/proxyless-w0.25-r112_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.25-r112_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.25-r112_imagenet.tflite) |
-| Proxyless-s <br />for TinyEngine<br />(w0.3-r176) | MACs: 38.3M <br />Param: 0.75M<br />Act: 242kB | SRAM: 526kB<br />Flash:  1063kB | SRAM: 292kB<br />Flash: 892kB  | FP: 57.0%<br />int8:  56.2% | FP: 80.2%<br />int8: 79.7% | [json](assets/configs/proxyless-w0.3-r176_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.3-r176_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/proxyless-w0.3-r176_imagenet.tflite) |
-|                                                   |                                                |                                                   |                                                    |                             |                            |                                                              |
-| TinyNAS<br />for TinyEngine<br />(**MCUNet**)     | MACs: 81.8M <br />Param: 0.74M<br />Act: 333kB | SRAM: 560kB<br />Flash:  1088kB | SRAM: 293kB<br />Flash: 897kB | FP: 62.2%<br />int8:  61.8% | FP: 84.5%<br />int8: 84.2% | [json](assets/configs/mcunet-320kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.tflite) |
-
-#### MCUNet under different memory constraints
-
-We provide the MCUNet models under different memory constraints:
-
-- STM32 F412 (Cortex-M4, 256kB SRAM/1MB Flash)
-- STM32 F746 (Cortex-M7, 320kB SRAM/1MB Flash)
-- STM32 H743 (Cortex-M7, 512kB SRAM/2MB Flash)
-
-The memory usage is measured on the corresponding devices.
-
-##### 1. Int8 Models
-
-Int8 quantization is the most widely used quantization and default setting in our experiments.
-
-| Constraints    | Model Stats.                                   | TF-Lite Stats.                                    | TinyEngine Stats.                                  | Top-1 Acc.                  | Top-5 Acc.                 | Link                                                         |
-| -------------- | ---------------------------------------------- | ------------------------------------------------- | -------------------------------------------------- | --------------------------- | -------------------------- | ------------------------------------------------------------ |
-| 256kB<br />1MB | MACs: 67.3M <br />Param: 0.73M<br />Act: 325kB | SRAM: 546kB<br />Flash:  1081kB | SRAM: 242kB<br />Flash: 878kB | FP: 60.9%<br />int8: 60.3%  | FP: 83.3%<br />int8: 82.6% | [json](assets/configs/mcunet-256kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-256kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-256kb-1mb_imagenet.tflite) |
-| 320kB<br />1MB | MACs: 81.8M <br />Param: 0.74M<br />Act: 333kB | SRAM: 560kB<br />Flash:  1088kB | SRAM: 293kB<br />Flash: 897kB | FP: 62.2%<br />int8:  61.8% | FP: 84.5%<br />int8: 84.2% | [json](assets/configs/mcunet-320kb-1mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-320kb-1mb_imagenet.tflite) |
-| 512kB<br />2MB | MACs: 125.9M <br />Param: 1.7M<br />Act: 413kB | SRAM: 863kB<br />Flash:  2133k | SRAM: 456kB<br />Flash: 1876kB | FP: 68.4%<br />int8: 68.0%  | FP: 88.4%<br />int8: 88.1% | [json](assets/configs/mcunet-512kb-2mb_imagenet.json)<br />[ckpt](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-512kb-2mb_imagenet.pth)<br />[tflite](https://hanlab.mit.edu/projects/tinyml/mcunet/release/mcunet-512kb-2mb_imagenet.tflite) |
-
-##### 2. Int4 models
-
-We can further reduce the memory usage with lower precision (int4). Notice that with int4 quantization, there will be a large accuracy drop compared to the float point models. Therefore, we have to perform quantization-aware training, and only report the quantized accuracy. 
-
-**Note**: Int4 quantization also does NOT bring further speed gain due to the instruction set. It may not be a better trade-off compared to int8 if inference latency is considered.
-
-| Constraints    | Model Stats.                                   | TinyEngine Stats.                       | Top-1 Acc.  | 
-| -------------- | ---------------------------------------------- | --------------------------------------- | ----------- | 
-| 256kB<br />1MB | MACs: 134.5M <br />Param: 1.4M<br />Act: 244kB | SRAM:  233kB<br />Flash:   1008kB<br /> | int4: 62.0% | 
-| 320kB<br />1MB | MACs: 170.0M <br />Param: 1.4M<br />Act: 295kB | SRAM:  282kB<br />Flash:   1010kB<br /> | int4: 63.5% | 
-| 512kB<br />1MB | MACs: 466.8M <br />Param: 3.3M<br />Act: 495kB | SRAM:  498kB<br />Flash:   1986kB<br /> | int4: 70.7% | 
-
-
-## Testing
-
-We provide the script to test the accuracy of models, both the float-point models in Pytorch and int8 models in TF-Lite format.
-
-To evaluate the accuracy of **PyTorch** models, run:
+To evaluate the accuracy of PyTorch `fp32` models, run:
 
 ```bash
-horovodrun -np 8 \
-    python jobs/run_imagenet.py --evaluate --batch_size 50 \
-    --train-dir PATH/TO/IMAGENET/train --val-dir PATH/TO/IMAGENET/val \
-    --net_config assets/configs/mcunet-320kb-1mb_imagenet.json \
-    --load_from assets/pt_ckpt/mcunet-320kb-1mb_imagenet.pth
+python eval_torch.py --net_id mcunet-320kB --dataset {imagenet/vww} --data-dir PATH/TO/DATA/val
 ```
 
-To evaluate the accuracy of int8 **TF-Lite** models, run:
+To evaluate the accuracy of TF-Lite `int8` models, run:
 
 ```bash
-python jobs/eval_tflite.py \
-    --val-dir PATH/TO/IMAGENET/val \
-    --tflite_path assets/tflite/mcunet-320kb-1mb_imagenet.tflite
+python eval_tflite.py --net_id mcunet-320kB --dataset {imagenet/vww} --data-dir PATH/TO/DATA/val
 ```
 
+### Model List
 
+- Note that all the **latency**, **SRAM**, and **Flash** usage are profiled with **TinyEngine** on STM32F746.
+- Here we only provide the `int8` quantized modes. `int4` quantized models (as shown in the paper) can further push the accuracy-memory trade-off, but lacking a general format support.
+- For accuracy (top1, top-5), we report the accuracy of `fp32`/`int8` models respectively
 
+The **ImageNet** model list:
+
+| net_id              | MACs   | #Params | SRAM  | Flash  | Top-1<br />(fp32/int8) | Top-5<br />(fp32/int8) |
+| ------------------- | ------ | ------- | ----- | ------ | ---------------------- | ---------------------- |
+| *# baseline models* |        |         |       |        |                        |                        |
+| mbv2-320kB          | 23.5M  | 0.75M   | 308kB | 862kB  | 49.7%/49.0%            | 74.6%/73.8%            |
+| proxyless-320kB     | 38.3M  | 0.75M   | 292kB | 892kB  | 57.0%/56.2%            | 80.2%/79.7%            |
+| *# mcunet models*   |        |         |       |        |                        |                        |
+| mcunet-10fps        | 6.4M   | 0.75M   | 266kB | 889kB  | 41.5%/40.4%            | 66.3%/65.2%            |
+| mcunet-5fps         | 12.8M  | 0.64M   | 307kB | 992kB  | 51.5%/49.9%            | 75.5%/74.1%            |
+| mcunet-256kB        | 67.3M  | 0.73M   | 242kB | 878kB  | 60.9%/60.3%            | 83.3%/82.6%            |
+| mcunet-320kB        | 81.8M  | 0.74M   | 293kB | 897kB  | 62.2%/61.8%            | 84.5%/84.2%            |
+| mcunet-512kB        | 125.9M | 1.73M   | 456kB | 1876kB | 68.4%/68.0%            | 88.4%/88.1%            |
+
+The **VWW** model list:
+
+*Note that the VWW dataset might be hard to prepare. You can download our pre-built `minival` set from [here](https://www.dropbox.com/s/bc7qi89ezra9711/vww-minival.tar?dl=0), around 380MB.*
+
+| net_id           | MACs  | #Params | SRAM  | Flash | Top-1<br />(fp32/int8) |
+| ---------------- | ----- | ------- | ----- | ----- | ---------------------- |
+| mcunet-10fps-vww | 6.0M  | 0.37M   | 146kB | 617kB | 87.4%/87.3%            |
+| mcunet-5fps-vww  | 11.6M | 0.43M   | 162kB | 689kB | 88.9%/88.9%            |
+| mcunet-320kB-vww | 55.8M | 0.64M   | 311kB | 897kB | 91.7%/91.8%            |
+
+For TF-Lite `int8` models we do not use quantization-aware training (QAT), so some results is slightly lower than paper numbers. 
 
 ## Requirement
 
@@ -170,18 +106,33 @@ python jobs/eval_tflite.py \
 
 - PyTorch 1.4.0+
 
-- Tensorflow 1.15
-
-- Horovod
-
-  
+- Tensorflow 1.15 (if you want to test TF-Lite models; CPU support only)
 
 ## Acknowledgement
 
 We thank [MIT Satori cluster](https://mit-satori.github.io/) for providing the computation resource. We thank MIT-IBM Watson AI Lab, SONY, Qualcomm, NSF CAREER Award #1943349 and NSF RAPID Award #2027266 for supporting this research.
 
-Part of the code is taken from [once-for-all](https://github.com/mit-han-lab/once-for-all) project for development.
 
+## Citation
+If you find the project helpful, please consider citing our paper:
+
+```
+@article{lin2020mcunet,
+  title={Mcunet: Tiny deep learning on iot devices},
+  author={Lin, Ji and Chen, Wei-Ming and Lin, Yujun and Gan, Chuang and Han, Song},
+  journal={Advances in Neural Information Processing Systems},
+  volume={33},
+  year={2020}
+}
+
+@inproceedings{
+  lin2021mcunetv2,
+  title={MCUNetV2: Memory-Efficient Patch-based Inference for Tiny Deep Learning},
+  author={Lin, Ji and Chen, Wei-Ming and Cai, Han and Gan, Chuang and Han, Song},
+  booktitle={Annual Conference on Neural Information Processing Systems (NeurIPS)},
+  year={2021}
+} 
+```
 
 
 ## Related Projects

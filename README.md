@@ -1,7 +1,7 @@
 # Tiny Machine Learning [[website]](https://tinyml.mit.edu)
 
-
 **[News]** We actively collaborate with industrial partners for real-world TinyML applications. Our technolgy has successfully influenced many products and deployed on over 100K IoT devices. Feel free to contact Prof. Song Han for more info.
+
 **[News]** Our projects are covered by: 
 [MIT News](https://news.mit.edu/2020/iot-deep-learning-1113), 
 [WIRED](https://www.wired.com/story/ai-algorithms-slimming-fit-fridge/), 
