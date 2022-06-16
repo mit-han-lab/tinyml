@@ -1,5 +1,7 @@
 # Tiny Machine Learning [[website]](https://tinyml.mit.edu)
 
+**[News]** We refactored MCUNet into a standalone repo: https://github.com/mit-han-lab/mcunet. Please follow the new repo for updates on TinyEngine release!
+
 **[News]** We actively collaborate with industrial partners for real-world TinyML applications. Our technolgy has successfully influenced many products and deployed on over 100K IoT devices. Feel free to contact Prof. Song Han for more info.
 
 **[News]** Our projects are covered by: 
@@ -13,7 +15,7 @@
 ## TinyML Projects
 | Projects                | Keywords | 
 |----------------------|:----------:|
-| [MCUNet](https://github.com/mit-han-lab/tinyml/tree/master/mcunet) | Memory-efficient inference, System-algorithm co-design |
+| [MCUNet](https://github.com/mit-han-lab/mcunet) | Memory-efficient inference, System-algorithm co-design |
 | [TinyTL](https://github.com/mit-han-lab/tinyml/tree/master/tinytl) | On-device learning, Memory-efficient transfer learning |
 | [NetAug](https://github.com/mit-han-lab/tinyml/tree/master/netaug) | Training technique for tiny neural networks |
 
