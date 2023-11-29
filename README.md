@@ -32,14 +32,14 @@ AI systems by requiring less computation, fewer engineers, and less data,
 to facilitate the giant market of edge AI and AIoT.
 
 <p align="center">
-    <img src="https://hanlab.mit.edu/projects/tinyml/figures/background1.png" width="100%" />
+    <img src="https://hanlab18.mit.edu/projects/tinyml/figures/background1.png" width="100%" />
 </p>
 <p align="center">
-    <img src="https://hanlab.mit.edu/projects/tinyml/figures/background2.png" width="100%" />
+    <img src="https://hanlab18.mit.edu/projects/tinyml/figures/background2.png" width="100%" />
 </p>
 
 ## Demo
-[![Watch the video](https://hanlab.mit.edu/projects/tinyml/figures/mcunet_demo.png)](https://youtu.be/YvioBgtec4U)
+[![Watch the video](https://hanlab18.mit.edu/projects/tinyml/figures/mcunet_demo.png)](https://youtu.be/YvioBgtec4U)
 
 ## Related Projects
 
