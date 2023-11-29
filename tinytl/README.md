@@ -1,4 +1,4 @@
-# TinyTL: Reduce Activations, Not Trainable Parameters for Efficient On-Device Learning [[website]](https://hanlab.mit.edu/projects/tinyml/tinyTL/)
+# TinyTL: Reduce Activations, Not Trainable Parameters for Efficient On-Device Learning [[website]](https://hanlab18.mit.edu/projects/tinyml/tinyTL/)
 
 ```BibTex
 @inproceedings{
@@ -13,27 +13,27 @@
 
 ## On-Device Learning, not Just Inference
 <p align="center">
-    <img src="https://hanlab.mit.edu/projects/tinyml/tinyTL/figures/on-device-learning.png" width="80%" />
+    <img src="https://hanlab18.mit.edu/projects/tinyml/tinyTL/figures/on-device-learning.png" width="80%" />
 </p>
 
 ## Activation is the Main Bottleneck, not Parameters
 <p align="center">
-    <img src="https://hanlab.mit.edu/projects/tinyml/tinyTL/figures/acitvation-is-the-bottleneck.png" width="70%" />
+    <img src="https://hanlab18.mit.edu/projects/tinyml/tinyTL/figures/acitvation-is-the-bottleneck.png" width="70%" />
 </p>
 
 ## Tiny Transfer Learning
 <p align="center">
-    <img src="https://hanlab.mit.edu/projects/tinyml/tinyTL/figures/tinyTL.png" width="70%" />
+    <img src="https://hanlab18.mit.edu/projects/tinyml/tinyTL/figures/tinyTL.png" width="70%" />
 </p>
 
 ## Transfer Learning Results
 <p align="center">
-    <img src="https://hanlab.mit.edu/projects/tinyml/tinyTL/figures/tinytl_results_8.png" width="80%" />
+    <img src="https://hanlab18.mit.edu/projects/tinyml/tinyTL/figures/tinytl_results_8.png" width="80%" />
 </p>
 
 ## Combining with Batch Size 1 Training
 <p align="center">
-    <img src="https://hanlab.mit.edu/projects/tinyml/tinyTL/figures/tinytl_batch1.png" width="80%" />
+    <img src="https://hanlab18.mit.edu/projects/tinyml/tinyTL/figures/tinytl_batch1.png" width="80%" />
 </p>
 
 ## Data Preparation

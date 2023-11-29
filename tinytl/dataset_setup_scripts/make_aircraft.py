@@ -64,8 +64,8 @@ def main():
     shutil.rmtree(os.path.join(dataset_path, 'fgvc-aircraft-2013b'))
     os.remove(os.path.join(dataset_path, 'fgvc-aircraft-2013b.tar.gz'))
 
-    download_file('https://hanlab.mit.edu/tools/image_dataset_formats/aircraft/train.txt')
-    download_file('https://hanlab.mit.edu/tools/image_dataset_formats/aircraft/val.txt')
+    download_file('https://hanlab18.mit.edu/tools/image_dataset_formats/aircraft/train.txt')
+    download_file('https://hanlab18.mit.edu/tools/image_dataset_formats/aircraft/val.txt')
     
     test_data()
     train_data()

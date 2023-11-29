@@ -135,7 +135,7 @@ if __name__ == '__main__':
 		# replace bn layers with gn layers
 		replace_bn_with_gn(net, gn_channel_per_group=8)
 		# load pretrained model
-		init_file = download_url('https://hanlab.mit.edu/projects/tinyml/tinyTL/files/'
+		init_file = download_url('https://hanlab18.mit.edu/projects/tinyml/tinyTL/files/'
 		                         'proxylessnas_mobile+lite_residual@imagenet@ws+gn', model_dir='~/.tinytl/')
 		net.load_state_dict(torch.load(init_file, map_location='cpu')['state_dict'])
 		net.classifier = LinearLayer(
@@ -147,7 +147,7 @@ if __name__ == '__main__':
 			net_config_path = os.path.join(args.net_path, 'net.config')
 			init_path = os.path.join(args.net_path, 'init')
 		else:
-			base_url = 'https://hanlab.mit.edu/projects/tinyml/tinyTL/files/specialized/%s/' % args.dataset
+			base_url = 'https://hanlab18.mit.edu/projects/tinyml/tinyTL/files/specialized/%s/' % args.dataset
 			net_config_path = download_url(base_url + 'net.config',
 			                               model_dir='~/.tinytl/specialized/%s' % args.dataset)
 			init_path = download_url(base_url + 'init', model_dir='~/.tinytl/specialized/%s' % args.dataset)

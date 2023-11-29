@@ -63,8 +63,8 @@ def main():
     shutil.rmtree(os.path.join(dataset_path, 'food-101'))
     os.remove(os.path.join(dataset_path, 'food-101.tar.gz'))
 
-    download_file('https://hanlab.mit.edu/tools/image_dataset_formats/food_101/train.txt')
-    download_file('https://hanlab.mit.edu/tools/image_dataset_formats/food_101/val.txt')
+    download_file('https://hanlab18.mit.edu/tools/image_dataset_formats/food_101/train.txt')
+    download_file('https://hanlab18.mit.edu/tools/image_dataset_formats/food_101/val.txt')
 
     test_data()
     train_data()
